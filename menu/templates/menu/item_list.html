@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+					{% for item in items %}
+						<div>
+							<h1><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a></h1>
+							<p>{{ item.description|linebreaks }}</p>
+							<p>published: {{ item.published_date }}</p>
+						</div>
+					{% endfor %}
+				</div>
+            </div>
+        </div>
+{% endblock %}
