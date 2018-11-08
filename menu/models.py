@@ -36,3 +36,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CopyShredder(models.Model):
+    state = models.BooleanField(default=True)

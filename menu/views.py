@@ -5,27 +5,76 @@ from django.utils import timezone
 from operator import attrgetter
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Item, Menu
+from .models import Item, Menu, Ingredient, CopyShredder
 from .forms import MenuForm
 
 
+def shred_copies():
+    """Delete all database duplicates."""
+    print('**SHREDDER ACTIVATED**')
+    lastSeenId = float('-Inf')
+    menus = Menu.objects.all().order_by('id')
+    menus = list(menus)
+    print('Checking menus.')
+    for menu in menus:
+        if menu.id == lastSeenId:
+            print("{}'s doppleganger is outta here!".format(menu.season))
+            # We aren't getting to this block?
+            menu.delete()
+        else:
+            lastSeenId = menu.id
+            # This block runs and does indeed select menus.
+
+    lastSeenId = float('-Inf')
+    items = Item.objects.all().order_by('id')
+    print('Checking items.')
+    for item in items:
+        if item.id == lastSeenId:
+            item.delete()
+        else:
+            lastSeenId = item.id
+
+    lastSeenId = float('-Inf')
+    ingredients = Ingredient.objects.all().order_by('id')
+    print('Checking ingredients.')
+    for ingredient in ingredients:
+        if ingredient.id == lastSeenId:
+            ingredient.delete()
+        else:
+            lastSeenId = ingredient.id
+
+    # lastSeenId = float('-Inf')
+    # cshredders = CopyShredder.objects.all().order_by('id')
+    # for cshredder in cshredders:
+    #    if cshredder.id == lastSeenId:
+    #        cshredder.delete()
+    #    else:
+    #        lastSeenId = cshredder.id
+
+
 def menu_list(request):
-    all_menus = Menu.objects.all()
-    # all_menus = Menu.objects.filter(
-    #    Q(season__icontains='summer')|
-    #    Q(season__icontains='spring')|
-    #    Q(season__icontains='winter')|
-    #    Q(season__icontains='autumn')|
-    #    Q(season__icontains='fall')
-    # )
-    ## Figure out if Menu's expiration_date field is timezone naive or aware.
+    # Use get_or_create to make bool object that tells views whether or not to check db for duplicates.
+    # After duplicates have been purged, flip switch.
+    # shred_cue, _ = CopyShredder.objects.get_or_create(state=True)
+    # if shred_cue.state:  # If we had to create this obj, there are copies to purge.
+    #    print('*Calling shredder function.*')
+    #    shred_copies()
+    #    print('*disarming shredder*')
+    #    shred_cue.state = False
+    #    # Line 59 isn't working as desired?
+    #    # Which is fine since while troubleshooting the shred_copies function.
+    #    # When shred_copies works, add explicit '== True' to line 59?
+        
+    # If shredder won't work, add .distinct() to all_menus query.
+    all_menus = Menu.objects.distinct().values('season', 'items', 'expiration_date', 'pk')
     menus = []
     for menu in all_menus:
-        if menu.expiration_date:
-            if menu.expiration_date >= timezone.now():
+        if menu['expiration_date']:
+            if menu['expiration_date'] <= timezone.now():
                 menus.append(menu)
 
-    menus = sorted(menus, key=attrgetter('expiration_date'))
+    # menus = sorted(menus, key=attrgetter('expiration_date'))
+    # menus = set(menus)
     return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
 
 
