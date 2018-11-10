@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.utils import timezone
 from operator import attrgetter
 from datetime import datetime
@@ -64,8 +65,9 @@ def menu_list(request):
     #    # Line 59 isn't working as desired?
     #    # Which is fine since while troubleshooting the shred_copies function.
     #    # When shred_copies works, add explicit '== True' to line 59?
-        
+
     # If shredder won't work, add .distinct() to all_menus query.
+    # .distinct() is not hiding duplicates?
     all_menus = Menu.objects.distinct().values('season', 'expiration_date', 'pk')
     menus = []
     for menu in all_menus:
@@ -95,7 +97,6 @@ def create_new_menu(request):
     form = MenuForm()
     if request.method == "POST":
         form = MenuForm(data=request.POST)
-        # form.fields["menu"].queryset =
         if form.is_valid():
             # menu = form.save(commit=False)
             # menu.created_date = timezone.now()
@@ -110,7 +111,6 @@ def create_new_menu(request):
 def edit_menu(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
     # items = Item.objects.all().values('name')
-    # items = Item.objects.filter(name__icontains='soda')
     # form = MenuForm()
     form = MenuForm(instance=menu)
     if request.method == "POST":
@@ -118,9 +118,13 @@ def edit_menu(request, pk):
             instance=menu,
             data=request.POST
         )
+        menu.season = request.POST.get('season', '')
+        menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
+        menu.items = request.POST.get('items', '')
         if form.is_valid():
-            menu = form.save()
-            return redirect('menu:menu_detail', pk=menu.pk)
+            menu.save()
+            # menu = form.save()
+            return HttpResponseRedirect(reverse('menu:menu_detail', pk=menu.pk))
     #    menu.season = request.POST.get('season', '')
     #    menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
     #    menu.items = request.POST.get('items', '')
@@ -129,4 +133,5 @@ def edit_menu(request, pk):
     return render(request, 'menu/change_menu.html', {
         'menu': menu,
         # 'items': items,
-        })
+        }
+    )
