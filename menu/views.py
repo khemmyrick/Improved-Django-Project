@@ -66,11 +66,11 @@ def menu_list(request):
     #    # When shred_copies works, add explicit '== True' to line 59?
         
     # If shredder won't work, add .distinct() to all_menus query.
-    all_menus = Menu.objects.distinct().values('season', 'items', 'expiration_date', 'pk')
+    all_menus = Menu.objects.distinct().values('season', 'expiration_date', 'pk')
     menus = []
     for menu in all_menus:
         if menu['expiration_date']:
-            if menu['expiration_date'] <= timezone.now():
+            if menu['expiration_date'] >= timezone.now():
                 menus.append(menu)
 
     # menus = sorted(menus, key=attrgetter('expiration_date'))
@@ -92,28 +92,39 @@ def item_detail(request, pk):
 
 
 def create_new_menu(request):
+    form = MenuForm()
     if request.method == "POST":
-        form = MenuForm(request.POST)
+        form = MenuForm(data=request.POST)
         # form.fields["menu"].queryset =
         if form.is_valid():
-            menu = form.save(commit=False)
-            menu.created_date = timezone.now()
-            menu.save()
+            # menu = form.save(commit=False)
+            # menu.created_date = timezone.now()
+            # menu.save()
+            menu = form.save()
             return redirect('menu_detail', pk=menu.pk)
-    else:
-        form = MenuForm(request.POST)
-    return render(request, 'menu/menu_edit.html', {'form': form})
+    # else:
+    #    form = MenuForm(request.POST)
+    return render(request, 'menu/add_menu.html', {'form': form})
 
 
 def edit_menu(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
-    items = Item.objects.all()
+    items = Item.objects.all().values('name')
     # items = Item.objects.filter(name__icontains='soda')
+    # form = MenuForm()
+    form = MenuForm(instance=menu)
     if request.method == "POST":
-        menu.season = request.POST.get('season', '')
-        menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
-        menu.items = request.POST.get('items', '')
-        menu.save()
+        form = MenuForm(
+            instance=menu,
+            data=request.POST
+        )
+        if form.is_valid():
+            menu = form.save()
+            return redirect('menu_detail', pk=menu.pk)
+    #    menu.season = request.POST.get('season', '')
+    #    menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
+    #    menu.items = request.POST.get('items', '')
+    #    menu.save()
 
     return render(request, 'menu/change_menu.html', {
         'menu': menu,

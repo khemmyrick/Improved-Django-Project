@@ -31,10 +31,27 @@ def v_err(flaw):
 
 
 class MenuForm(forms.ModelForm):
-        
+    # expiration_date = forms.DateField(label=("Expiration Date"))
+
     class Meta:
         model = models.Menu
-        exclude = ('created_date',)
+        fields = (
+            'season',
+            'items',
+            'expiration_date'
+        )
+        exclude = ['created_date',]
 
+    def __init__ (self, *args, **kwargs):
+        super(MenuForm, self).__init__(*args, **kwargs)
+        self.fields["items"].widget = forms.widgets.SelectMultiple()
+        self.fields["items"].queryset = models.Item.objects.all()
+        self.fields["expiration_date"].widget = forms.SelectDateWidget(  # forms.DateField(
+            empty_label=(
+                "Choose Year",
+                "Choose Month",
+                "Choose Day"
+            ),
+        )
     # season = forms.CharField(label=_("Season"),
     #    widget=forms.SelectMultiple)
