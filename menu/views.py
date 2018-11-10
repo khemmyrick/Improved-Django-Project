@@ -115,12 +115,9 @@ def edit_menu(request, pk):
     form = MenuForm(instance=menu)
     if request.method == "POST":
         form = MenuForm(
-            instance=menu,
-            data=request.POST
+            request.POST,
+            instance=menu
         )
-        menu.season = request.POST.get('season', '')
-        menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
-        menu.items = request.POST.get('items', '')
         if form.is_valid():
             menu.save()
             # menu = form.save()
