@@ -11,7 +11,7 @@
 				{% if user.is_authenticated %}
 					<a href="{% url 'menu:menu_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
 				{% endif %}
-				<h1><a href="/">Soda Fountain</a></h1>
+				<h1><a href="{% url 'menu:menu_list' %}">Soda Fountain</a></h1>
 			</div>
 		</header>
 		{% block body %}{% endblock %}

@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^menu/', include('menu.urls', namespace='menu'))
-]
+]  # Add ^$ view to redirect to 'menu/' uri.
 
 urlpatterns += staticfiles_urlpatterns()
 
