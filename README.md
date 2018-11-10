@@ -7,10 +7,10 @@ We spent a weekend doing a hackathon a year or so ago and someone built this pro
 ## Steps
 1. Use the provided requirements.txt to install needed packages for the project. [?]
 2. Make fundamental project visibly functional enough that it can be debugged. []
-- FIX NAMES AND NAMESPACES!!!!![]
-- See steps 5 and 6 below. These steps are precursor to all other steps.  May be hardest part.[]
+	- FIX NAMES AND NAMESPACES!!!!![]
+	- See steps 5 and 6 below. These steps are precursor to all other steps.  May be hardest part.[]
 3. Use django-debug-toolbar to find places where database queries run too long or hit the database too many times. []
-- (Hopefully this is easy.)
+	- (Hopefully this is easy.)
 4. Use django-debug-toolbar to find places where templates aren't properly using inheritance. [X]
 5. Check that models are using appropriate fields for the type of data they store. If not, correct them and create migrations to handle the data. []
 6. Check that forms are using the correct fields and validation. If not, fix. [] 
