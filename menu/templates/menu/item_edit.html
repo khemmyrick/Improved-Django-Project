@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Change Item</h1>
+                    <form method="POST" action="{% url 'menu:item_edit' pk=item.pk %}" enctype="multipart/form-data" class="menu-form">
+						{% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save btn btn-default">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}

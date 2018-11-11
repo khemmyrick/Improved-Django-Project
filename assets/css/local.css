@@ -1,0 +1,459 @@
+@import "global.css" all;
+
+	body {
+	background: linear-gradient(to bottom, #BDE5DD 25%, #967AA1 50%, #384033 75%);
+	}
+	nav li {
+	color: #000000;
+	padding: 20px 0 20px 0;
+	text-align: center;
+	width: 33%;
+	float: left;
+	list-style: none;
+	}
+	
+	a { 
+		background-color: #ACD1C9;
+		color: #000000;
+		font-weight: bold;
+	}
+	a:active, a:hover { outline: 0; }
+	.minerals__container { 
+	background: linear-gradient(#967AA1 10%, transparent 30%, #AAA1C8 50%, transparent 70%, #967AA1 90%),   url("#");
+	background-attachment: fixed;
+	}
+
+	.minerals__random a { 
+	background: linear-gradient(to left, #B5D0D0 25%, #F3EBE8 50%, #FFC4D9 75%);
+	color: #000000;
+	font-weight: bold;
+	}
+
+	
+	.slideimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	width: 40%;
+    vertical-align: super;
+	}
+
+/*	
+#group_menu {
+	position: fixed;
+	left: 0;
+	top: 50%;
+	width: 8em;
+	margin-top: -2.5em;
+} */
+	
+#mg_head {
+	color: #FFFFFF;
+}
+
+#Black {
+	background-color: black;
+	color: #FFFFFF;
+}
+
+#Black:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+
+#Blue {
+	background-color: blue;
+	color: #FFFFFF;
+}
+
+#Blue:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Brown {
+	background-color: brown;
+	color: #000000;
+}
+
+#Brown:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Gray {
+	background-color: gray;
+	color: #000000;
+}
+
+#Gray:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Green {
+	background-color: green;
+	color: #000000;
+}
+
+#Green:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Indigo {
+	background-color: indigo;
+	color: #FFFFFF;
+}
+
+#Indigo:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Orange {
+	background-color: orange;
+	color: #000000;
+}
+
+#Orange:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Purple {
+	background-color: purple;
+	color: #000000;
+}
+
+#Purple:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Red {
+	background-color: red;
+	color: #000000;
+}
+
+#Red:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Violet {
+	background-color: violet;
+	color: #000000;
+}
+
+#Violet:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#White {
+	background-color: white;
+	color: #000000;
+}
+
+#White:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Yellow {
+	background-color: yellow;
+	color: #000000;
+}
+
+#Yellow:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+
+#Colorless {
+	background-color: transparent;
+	color: #000000;
+}
+
+#Colorless:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+}
+	
+.group_menu {
+	background-color: #384033;
+	/* background: linear-gradient(to bottom, transparent, transparent, 35%, #384033 50%, #384033, transparent 65%); */
+	/* box-shadow: 0 0 100px 50px #CAE5D2; */
+	color: #000000;
+	padding: 5px 0 5px 0;
+	position: fixed;
+	left: 0;
+	text-align: left;
+	width: 15%;
+	height: 100%;
+	overflow: auto;
+	}
+
+	
+.cat_menu {
+	background-color: #384033;
+	/* background: linear-gradient(to bottom, transparent, transparent, 35%, #384033 50%, #384033, transparent 65%); */
+	/* box-shadow: 0 0 100px 50px #CAE5D2; */
+	color: #000000;
+	padding: 5px 0 5px 0;
+	position: fixed;
+	right: 0;
+	text-align: left;
+	width: 15%;
+	height: 100%;
+	overflow: auto;
+	}
+	
+	#slides {
+    background: linear-gradient(to bottom, #BDE5DD, #BDE5DD 25%, transparent 50%, transparent, #BDE5DD 75%);	
+	}
+	#slides:hover {
+	background-color: #BDE5DD;		
+	}
+    #arsenates { 
+		background-color: #F3EBE8;
+		color: #000000;
+		font-weight: normal;
+	}
+	#arsenates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #borates { 
+		background-color: #FFB8D1;
+		color: #000000;
+		font-weight: normal;
+	}
+	#borates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #carbonates { 
+		background-color: #E4B4C2;
+		color: #000000;
+		font-weight: normal;
+	}
+	#carbonates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #halides { 
+		background-color: #E7CEE3;
+		color: #000000;
+		font-weight: normal;
+	}
+	#halides:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #other { 
+		background-color: #E0E1E9;
+		color: #000000;
+		font-weight: normal;
+	}
+	#other:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #oxides { 
+		background-color: #DDFDFE;
+		color: #000000;
+		font-weight: normal;
+	}
+	#oxides:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #phosphates { 
+		background-color: #D0A4B1;
+		color: #000000;
+		font-weight: normal;
+	}
+	#phosphates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #silicates { 
+		background-color: #FFC4D9;
+		color: #000000;
+		font-weight: normal;
+	}
+	#silicates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #sulfates { 
+		background-color: #CCCDD4;
+		color: #000000;
+		font-weight: normal;
+	}
+	#sulfates:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #sulfides { 
+		background-color: #B5D0D0;
+		color: #000000;
+		font-weight: normal;
+	}
+	#sulfides:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #sulfosalts { 
+		background-color: #D2BCCF;
+		color: #000000;
+		font-weight: normal;
+	}
+	#sulfosalts:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #native-elements { 
+		background-color: #DCBCC6;
+		color: #000000;
+		font-weight: normal;
+	}
+	#native-elements:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+    #organic-minerals { 
+		background-color: #D0A4B1;
+		color: #000000;
+		font-weight: normal;
+	}
+	#organic-minerals:hover { 
+		background-color: #BDE5DD;
+		color: #000000;
+		font-weight: bold;
+	}
+	
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  background: linear-gradient(to bottom, #BDE5DD 25%, transparent 50%, #BDE5DD 75%);
+  color: #000000;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  background-color: #BDE5DD;
+  color: #000000;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+

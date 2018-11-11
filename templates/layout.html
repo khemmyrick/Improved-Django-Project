@@ -1,9 +1,13 @@
+{% load static from staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Soda Fountain{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/local.css' %}" type="text/css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
 		<header>
@@ -12,6 +16,7 @@
 					<a href="{% url 'menu:menu_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
 				{% endif %}
 				<h1><a href="{% url 'menu:menu_list' %}">Soda Fountain</a></h1>
+				<h2><a href="{% url 'menu:item_list' %}">Items</a></h2>
 			</div>
 		</header>
 		{% block body %}{% endblock %}

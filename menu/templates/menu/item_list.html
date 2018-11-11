@@ -3,12 +3,15 @@
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
+					<h2>List of Items</h2>
+					<h5>Number of items: {{ items|length }}</h5>
 					{% for item in items %}
 						<div>
-							<h1><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a></h1>
-							<p>{{ item.description|linebreaks }}</p>
-							<p>published: {{ item.published_date }}</p>
+							<h3><a href="{% url 'menu:item_detail' pk=item.pk %}">{{ item.name|truncatewords:5 }}</a></h3>
+							<p>{{ item.description|linebreaks|truncatewords:10 }}</p>
+							<p>published: {{ item.created_date }}</p>
 						</div>
+						<hr>
 					{% endfor %}
 				</div>
             </div>

@@ -11,7 +11,6 @@ class Menu(models.Model):
     expiration_date = models.DateTimeField(
         blank=True, null=True
     )
-    # expiration date doesn't need an hour or a timezone. . .
 
     def __str__(self):
         return self.season

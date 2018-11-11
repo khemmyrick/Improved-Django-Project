@@ -31,7 +31,6 @@ def v_err(flaw):
 
 
 class MenuForm(forms.ModelForm):
-    # expiration_date = forms.DateField(label=("Expiration Date"))
 
     class Meta:
         model = models.Menu
@@ -53,5 +52,23 @@ class MenuForm(forms.ModelForm):
                 "Choose Day"
             ),
         )
-    # season = forms.CharField(label=_("Season"),
-    #    widget=forms.SelectMultiple)
+
+
+class ItemForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Item
+        fields = (
+            'name',
+            'description',
+            'ingredients',
+            'standard'
+        )
+        exclude = ['created_date',]
+
+    def __init__ (self, *args, **kwargs):
+        super(ItemForm, self).__init__(*args, **kwargs)
+        self.fields["ingredients"].widget = forms.widgets.SelectMultiple()
+        self.fields["ingredients"].queryset = models.Ingredient.objects.all()
+        # self.fields["standard"].widget = forms.BooleanField(),
+

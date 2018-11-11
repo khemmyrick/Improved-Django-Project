@@ -7,7 +7,12 @@ We spent a weekend doing a hackathon a year or so ago and someone built this pro
 ## Steps
 1. Use the provided requirements.txt to install needed packages for the project. [?]
 2. Make fundamental project visibly functional enough that it can be debugged. []
-	- FIX NAMES AND NAMESPACES!!!!![]
+	- Add missing templates and features. []
+		- Add first-letter search filter to item list and menu list.
+		- Add chef filter to item list.
+		- Add standard item boolean toggle filter.
+		- Menu detail page should be item list page with menu filter applied.
+	- Maybe add CSS? []
 	- See steps 5 and 6 below. These steps are precursor to all other steps.  May be hardest part.[]
 3. Use django-debug-toolbar to find places where database queries run too long or hit the database too many times. []
 	- (Hopefully this is easy.)

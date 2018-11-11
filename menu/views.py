@@ -7,7 +7,7 @@ from operator import attrgetter
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Item, Menu, Ingredient, CopyShredder
-from .forms import MenuForm
+from .forms import MenuForm, ItemForm
 
 
 def shred_copies():
@@ -77,7 +77,25 @@ def menu_list(request):
 
     # menus = sorted(menus, key=attrgetter('expiration_date'))
     # menus = set(menus)
-    return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
+    return render(
+        request,
+        'menu/list_all_current_menus.html',
+        {'menus': menus}
+    )
+
+
+def item_list(request):
+    items = Item.objects.values(
+        'name',
+        'description',
+        'created_date',
+        'pk'
+    )
+    return render(
+        request,
+        'menu/item_list.html',
+        {'items': items}
+    )
 
 
 def menu_detail(request, pk):
@@ -110,8 +128,6 @@ def create_new_menu(request):
 
 def edit_menu(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
-    # items = Item.objects.all().values('name')
-    # form = MenuForm()
     form = MenuForm(instance=menu)
     if request.method == "POST":
         form = MenuForm(
@@ -119,16 +135,35 @@ def edit_menu(request, pk):
             instance=menu
         )
         if form.is_valid():
+            menu = form.save(commit=False)
+            form.save_m2m()
             menu.save()
-            # menu = form.save()
-            return HttpResponseRedirect(reverse('menu:menu_detail', pk=menu.pk))
-    #    menu.season = request.POST.get('season', '')
-    #    menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
-    #    menu.items = request.POST.get('items', '')
-    #    menu.save()
+            return redirect('menu:menu_detail', pk=menu.pk)
 
     return render(request, 'menu/change_menu.html', {
         'menu': menu,
-        # 'items': items,
+        'form': form
+        }
+    )
+
+
+def item_edit(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    form = ItemForm(instance=item)
+    if request.method == "POST":
+        form = ItemForm(
+            request.POST,
+            instance=item
+        )
+        if form.is_valid():
+            item = form.save(commit=False)
+            form.save_m2m()
+            item.save()
+            # menu = form.save()
+            return redirect('menu:item_detail', pk=item.pk)
+
+    return render(request, 'menu/item_edit.html', {
+        'item': item,
+        'form': form
         }
     )
