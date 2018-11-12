@@ -6,8 +6,8 @@ We spent a weekend doing a hackathon a year or so ago and someone built this pro
 
 ## Steps
 1. Use the provided requirements.txt to install needed packages for the project. [?]
-2. Make fundamental project visibly functional enough that it can be debugged. []
-	- Add missing templates and features. []
+2. Make fundamental project visibly functional enough that it can be debugged. [???]
+	- Add missing templates and features. [???]
 		- Add first-letter search filter to item list and menu list.
 		- Add chef filter to item list.
 		- Add standard item boolean toggle filter.

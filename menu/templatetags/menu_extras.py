@@ -5,7 +5,7 @@ from django import template
 
 from django.shortcuts import get_object_or_404
 
-from minerals.models import Group, Mineral
+from menu.models import Menu
 
 
 register = template.Library()
@@ -17,7 +17,7 @@ def underspace(attr_string):
     return attr_string.replace('_', ' ')
 
 
-@register.inclusion_tag('minerals/group_nav.html', takes_context=True)
+@register.inclusion_tag('menu/chef_nav.html', takes_context=True)
 def nav_chefs_list(context):
     """Returns a dictionary of chefs to display in layout."""
     chef_list = User.objects.all().order_by('name')
@@ -25,7 +25,7 @@ def nav_chefs_list(context):
             'chef': context['chef']}
 
 
-@register.inclusion_tag('minerals/letters.html', takes_context=True)
+@register.inclusion_tag('menu/letters.html', takes_context=True)
 def abc_list(context):
     """Return a list of letters for first letter search."""
     alpha_search = []

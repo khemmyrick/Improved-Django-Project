@@ -27,7 +27,7 @@ class Item(models.Model):
         default=timezone.now
     )
     standard = models.BooleanField(default=False)
-    ingredients = models.ManyToManyField('Ingredient')
+    ingredients = models.ManyToManyField('Ingredient', related_name="ingredients")
 
     def __str__(self):
         return self.name

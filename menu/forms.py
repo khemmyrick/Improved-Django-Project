@@ -70,5 +70,5 @@ class ItemForm(forms.ModelForm):
         super(ItemForm, self).__init__(*args, **kwargs)
         self.fields["ingredients"].widget = forms.widgets.SelectMultiple()
         self.fields["ingredients"].queryset = models.Ingredient.objects.all()
-        # self.fields["standard"].widget = forms.BooleanField(),
+        # self.fields["standard"].widget = forms.BooleanField()
 
