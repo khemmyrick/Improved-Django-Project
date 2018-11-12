@@ -1,0 +1,15 @@
+{% if chef %}
+	{% for chef_li in chef_list %}
+		{% if chef_li.name == chef.name %}
+			<li class="group__bold">{{ chef_li.name }}</li>
+		{% else %}
+			<li><a class="group__anchor" id="{{ chef_li.name|slugify }}" href="{% url 'menu:chef_list' pk=chef_li.pk %}">{{ chef_li.name }}</a></li>
+		{% endif %}
+	{% endfor %}
+{% else %}
+	{% for chef_li in chef_list %}
+		<li>
+			<a class="group__anchor" id="{{ chef_li.name|slugify }}" href="{% url 'menu:chef_list' pk=chef_li.pk %}">{{ chef_li.name }}</a>
+		</li>
+	{% endfor %}
+{% endif %}
