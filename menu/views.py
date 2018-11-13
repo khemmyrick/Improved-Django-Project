@@ -17,8 +17,10 @@ def menu_list(request):
     all_menus = Menu.objects.values('season', 'expiration_date', 'pk')  # items m2m field was obstructing proper iteration.
     # values() call prevents m2m field from populating anyway.
     for menu in all_menus:
-        print(menu['pk'])
+        # print(menu['pk'])
         if menu['expiration_date']:
+            mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu object has no attribute values exception.
+            menu['items'] = mitem.items
             if menu['expiration_date'] >= timezone.now():
                 menus.append(menu)
 
