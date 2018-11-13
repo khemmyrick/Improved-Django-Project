@@ -18,12 +18,12 @@
 		font-weight: bold;
 	}
 	a:active, a:hover { outline: 0; }
-	.minerals__container { 
+	.menu__container { 
 	background: linear-gradient(#967AA1 10%, transparent 30%, #AAA1C8 50%, transparent 70%, #967AA1 90%),   url("#");
 	background-attachment: fixed;
 	}
 
-	.minerals__random a { 
+	.menu__random a { 
 	background: linear-gradient(to left, #B5D0D0 25%, #F3EBE8 50%, #FFC4D9 75%);
 	color: #000000;
 	font-weight: bold;
@@ -39,7 +39,7 @@
 	}
 
 /*	
-#group_menu {
+#chef_menu {
 	position: fixed;
 	left: 0;
 	top: 50%;
@@ -194,7 +194,7 @@
 		font-weight: bold;
 }
 	
-.group_menu {
+.chef_menu {
 	background-color: #384033;
 	/* background: linear-gradient(to bottom, transparent, transparent, 35%, #384033 50%, #384033, transparent 65%); */
 	/* box-shadow: 0 0 100px 50px #CAE5D2; */
@@ -349,12 +349,12 @@
 		color: #000000;
 		font-weight: bold;
 	}
-    #organic-minerals { 
+    #organic-menu { 
 		background-color: #D0A4B1;
 		color: #000000;
 		font-weight: normal;
 	}
-	#organic-minerals:hover { 
+	#organic-menu:hover { 
 		background-color: #BDE5DD;
 		color: #000000;
 		font-weight: bold;

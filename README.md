@@ -5,16 +5,28 @@
 We spent a weekend doing a hackathon a year or so ago and someone built this project. It's...not the best. It runs kind of slow and has been a real pain to debug and add onto. We need you to go through the project, find where it's inefficient, and fix it. Check the templates for bad inheritance and extra database calls. Check the views for extra views or extra database calls. Check the models to make sure they're using the best fields. Check the forms for proper validation and fields. Basically just check the whole thing over. Oh, and it doesn't have any tests, so please get test coverage up to at least 75%.
 
 ## Steps
+0. Verify neccessity of "implied" extra steps. []
+	- Templates
+		- Applying css?
+		- Structuring html files?
+	- settings/manage/apps/etc
+		- Probably good to go on those fronts?
+	- Database
+		- It sounds like the duplicates are maybe something I created?  
+			- Remove copy shredder function and object.
 1. Use the provided requirements.txt to install needed packages for the project. [?]
-2. Make fundamental project visibly functional enough that it can be debugged. [???]
+	- I am using a recommended
+2. Make fundamental project visibly functional enough that it can be debugged. [implied step ???]
 	- Add missing templates and features. [???]
-		- Add first-letter search filter to item list and menu list.
-		- Add chef filter to item list.
-		- Add standard item boolean toggle filter.
+		- Add first-letter search filter to item list and menu list?
+		- Add chef filter to item list?
+		- Add standard item boolean toggle filter?
 		- Menu detail page should be item list page with menu filter applied.
 	- Maybe add CSS? []
 	- See steps 5 and 6 below. These steps are precursor to all other steps.  May be hardest part.[]
 3. Use django-debug-toolbar to find places where database queries run too long or hit the database too many times. []
+	- Queries should take less than 60 ms combined.
+	- Fewer than 5 queries are triggered per view.
 	- (Hopefully this is easy.)
 4. Use django-debug-toolbar to find places where templates aren't properly using inheritance. [X]
 5. Check that models are using appropriate fields for the type of data they store. If not, correct them and create migrations to handle the data. []
