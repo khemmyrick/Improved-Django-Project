@@ -9,7 +9,7 @@
 					<h5>Number of items: {{ items|length }}</h5>
 					{% for item in items %}
 						<div>
-							<h3><a href="{% url 'menu:item_detail' pk=item.pk %}">{{ item.name|truncatewords:5 }}</a></h3>
+							<h3><a href="{% url 'menu:item_detail' pk=item.id %}">{{ item.name|truncatewords:5 }}</a></h3>
 							<p>{{ item.description|linebreaks|truncatewords:10 }}</p>
 							<p>published: {{ item.created_date }}</p>
 						</div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import Http404, HttpResponseRedirect
 from django.utils import timezone
 from operator import attrgetter
@@ -12,20 +12,30 @@ from .forms import MenuForm, ItemForm
 
 def menu_list(request):
     """Display a list of all non-expired menus."""
-    menus = Menu.objects.prefetch_related('items').filter(expiration_date__gte=timezone.now())
+    menus = Menu.objects.filter(
+        expiration_date__gte=timezone.now()
+    ).prefetch_related(
+        'items'
+    )
     return render(
         request,
         'menu/list_all_current_menus.html',
-        {'menus': menus}
+        {
+            'menus': menus
+        }
     )
 
 
 def item_list(request):
-    items = Item.objects.values(
+    """Display a list of the items."""
+    items = Item.objects.filter(
+        standard=False
+    ).values(
         'name',
         'description',
         'created_date',
-        'pk'
+        'standard',
+        'id'
     )
     return render(
         request,
@@ -35,34 +45,31 @@ def item_list(request):
 
 
 def menu_detail(request, pk):
-    menu = Menu.objects.get(pk=pk)
+    """Display a given menu in more detail."""
+    menu = get_object_or_404(Menu, pk=pk)
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
 
 def item_detail(request, pk):
-    try: 
-        item = Item.objects.get(pk=pk)
-    except ObjectDoesNotExist:
-        raise Http404
+    """Display a given item in greater detail."""
+    item = get_object_or_404(Item, pk=pk)
     return render(request, 'menu/detail_item.html', {'item': item})
 
 
 def create_new_menu(request):
+    """Create a new row in the Menu model."""
     form = MenuForm()
     if request.method == "POST":
         form = MenuForm(data=request.POST)
         if form.is_valid():
-            # menu = form.save(commit=False)
-            # menu.created_date = timezone.now()
-            # menu.save()
             menu = form.save()
             return redirect('menu:menu_detail', pk=menu.pk)
-    # else:
-    #    form = MenuForm(request.POST)
+
     return render(request, 'menu/add_menu.html', {'form': form})
 
 
 def edit_menu(request, pk):
+    """Edit a menu."""
     menu = get_object_or_404(Menu, pk=pk)
     form = MenuForm(instance=menu)
     if request.method == "POST":
@@ -84,6 +91,7 @@ def edit_menu(request, pk):
 
 
 def item_edit(request, pk):
+    """Edit an item."""
     item = get_object_or_404(Item, pk=pk)
     form = ItemForm(instance=item)
     if request.method == "POST":
@@ -95,7 +103,6 @@ def item_edit(request, pk):
             item = form.save(commit=False)
             form.save_m2m()
             item.save()
-            # menu = form.save()
             return redirect('menu:item_detail', pk=item.pk)
 
     return render(request, 'menu/item_edit.html', {

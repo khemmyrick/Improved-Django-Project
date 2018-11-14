@@ -6,7 +6,7 @@ class Menu(models.Model):
     season = models.CharField(max_length=20)
     items = models.ManyToManyField(
         'Item',
-        # related_name='items'
+        related_name='items'
     )
     created_date = models.DateTimeField(
         default=timezone.now
@@ -19,7 +19,7 @@ class Menu(models.Model):
         return self.season
         
     class Meta:
-        ordering = ('-expiration_date', 'season',)
+        ordering = ('-expiration_date',)
 
 
 class Item(models.Model):
