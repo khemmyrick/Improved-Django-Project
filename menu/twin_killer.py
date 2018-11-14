@@ -41,4 +41,9 @@ def shred_copies():
     #    if cshredder.id == lastSeenId:
     #        cshredder.delete()
     #    else:
-    #        lastSeenId = cshredder.id
+    #        lastSeenId = cshredder.id            
+
+# class CopyShredder(models.Model):
+#    state = models.BooleanField(default=True)
+## I originally set copyshredder as a model object. 
+## This was so I could set its state, and have it know whether or not it had run.

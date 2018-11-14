@@ -6,25 +6,13 @@ from django.utils import timezone
 from operator import attrgetter
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Item, Menu, Ingredient, CopyShredder
+from .models import Item, Menu, Ingredient
 from .forms import MenuForm, ItemForm
 
 
 def menu_list(request):
-    # all_menus = Menu.objects.values('season', 'expiration_date', 'items', 'pk')
-    # Why are we sending items to this template?
-    # menus = []
-    # all_menus = Menu.objects.values('season', 'expiration_date', 'pk')  # items m2m field was obstructing proper iteration.
-    # values() call prevents m2m field from populating anyway.
+    """Display a list of all non-expired menus."""
     menus = Menu.objects.prefetch_related('items').filter(expiration_date__gte=timezone.now())
-    # Even with a .all() call, we get only 4 queries in as little as 1 ms, thanks to prefetch_related
-    # for menu in all_menus:
-    #    mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu objects.get a has no attribute values exception.
-    #        menu['items'] = mitem.items
-    #        menus.append(menu)
-
-    # menus = sorted(menus, key=attrgetter('expiration_date'))
-    # menus = set(menus)
     return render(
         request,
         'menu/list_all_current_menus.html',

@@ -3,7 +3,7 @@ from django.utils import timezone
 
 
 class Menu(models.Model):
-    season = models.CharField(unique=True, max_length=20)  # unique=True ?
+    season = models.CharField(max_length=20)
     items = models.ManyToManyField(
         'Item',
         # related_name='items'
@@ -23,7 +23,7 @@ class Menu(models.Model):
 
 
 class Item(models.Model):
-    name = models.CharField(unique=True, max_length=200)
+    name = models.CharField(max_length=200)
     description = models.TextField()
     chef = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(
@@ -43,14 +43,10 @@ class Item(models.Model):
 
 
 class Ingredient(models.Model):
-    name = models.CharField(unique=True, max_length=200)
+    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
     class Meta:
         ordering = ('name',)
-
-
-class CopyShredder(models.Model):
-    state = models.BooleanField(default=True)
