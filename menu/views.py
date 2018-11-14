@@ -13,16 +13,15 @@ from .forms import MenuForm, ItemForm
 def menu_list(request):
     # all_menus = Menu.objects.values('season', 'expiration_date', 'items', 'pk')
     # Why are we sending items to this template?
-    menus = []
-    all_menus = Menu.objects.values('season', 'expiration_date', 'pk')  # items m2m field was obstructing proper iteration.
+    # menus = []
+    # all_menus = Menu.objects.values('season', 'expiration_date', 'pk')  # items m2m field was obstructing proper iteration.
     # values() call prevents m2m field from populating anyway.
+    menus = Menu.objects.filter(expiration_date__gte=timezone.now())  #obvious solution is obvious...
+    # Also, obvious solution is still querying the db for every object that fits description.
     for menu in all_menus:
-        # print(menu['pk'])
-        if menu['expiration_date']:
-            mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu object has no attribute values exception.
-            menu['items'] = mitem.items
-            if menu['expiration_date'] >= timezone.now():
-                menus.append(menu)
+        mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu object has no attribute values exception.
+    #        menu['items'] = mitem.items
+    #        menus.append(menu)
 
     # menus = sorted(menus, key=attrgetter('expiration_date'))
     # menus = set(menus)
