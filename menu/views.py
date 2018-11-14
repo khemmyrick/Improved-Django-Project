@@ -16,10 +16,10 @@ def menu_list(request):
     # menus = []
     # all_menus = Menu.objects.values('season', 'expiration_date', 'pk')  # items m2m field was obstructing proper iteration.
     # values() call prevents m2m field from populating anyway.
-    menus = Menu.objects.filter(expiration_date__gte=timezone.now())  #obvious solution is obvious...
+    menus = Menu.objects.prefetch_related('items').filter(expiration_date__gte=timezone.now())  #obvious solution is obvious...
     # Also, obvious solution is still querying the db for every object that fits description.
-    for menu in all_menus:
-        mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu object has no attribute values exception.
+    # for menu in all_menus:
+    #    mitem = Menu.objects.get(pk=menu['pk']) # .values() gives a Menu objects.get a has no attribute values exception.
     #        menu['items'] = mitem.items
     #        menus.append(menu)
 
