@@ -4,7 +4,10 @@ from django.utils import timezone
 
 class Menu(models.Model):
     season = models.CharField(unique=True, max_length=20)  # unique=True ?
-    items = models.ManyToManyField('Item', related_name='items')
+    items = models.ManyToManyField(
+        'Item',
+        # related_name='items'
+    )
     created_date = models.DateTimeField(
         default=timezone.now
     )
@@ -27,7 +30,10 @@ class Item(models.Model):
         default=timezone.now
     )
     standard = models.BooleanField(default=False)
-    ingredients = models.ManyToManyField('Ingredient', related_name="ingredients")
+    ingredients = models.ManyToManyField(
+        'Ingredient',
+        related_name="ingredients"
+    )
 
     def __str__(self):
         return self.name

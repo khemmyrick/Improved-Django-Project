@@ -12,12 +12,12 @@
                                 <a href="{% url 'menu:menu_detail' pk=menu.pk %}">{{ menu.season }}</a>
                             </h1>
 							
-                            <!-- <p class="btn-link">{% comment %}
-								{% for item in menu.items_set %}
+                            <p>
+								{% for item in menu.items_set.all %}
 									<a href="{% url 'menu:item_detail' pk=item.pk %}">{{ item.name }}</a>. <br>
-								{% endfor %}{% endcomment %}
-							</p> -->
-							<p class="btn-link">{{ menu.items.all|join:", "}}</p>
+								{% endfor %}
+							</p>
+							<!-- class="btn-link" {% comment %}<p>{{ menu.items.all|join:", "}}</p> {% endcomment %}-->
 							{% if menu.expiration_date %}
 								<div class="date">
 									Expires on: {{ menu.expiration_date }}
