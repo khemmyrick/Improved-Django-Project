@@ -124,6 +124,8 @@ class ModelTests(Pregame, TestCase):
 
     def test_menu_creation(self):
         self.assertEqual(self.ppg.season, 'Powerpuff')
+        self.assertLessEqual(self.lonely.expiration_date, timezone.now())
+        # self.assertIn(self.buttercup, self.leaderless.items.queryset)
         
 
 
@@ -143,3 +145,17 @@ class ViewTests(Pregame, TestCase):
         self.assertTemplateUsed(resp, 'menu/item_list.html')
         self.assertNotIn(self.item1, resp.context['items'])
         self.assertIn(self.item2, resp.context['items'])
+
+    def test_menu_detail_view(self):
+        resp = self.client.get('/menu/1/detail/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'menu/menu_detail.html')
+        self.assertEqual(self.ppg, resp.context['menu'])
+        self.assertNotEqual(self.lonely, resp.context['menu'])
+
+    def test_item_detail_view(self):
+        resp = self.client.get('/menu/item/1/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'menu/detail_item.html')
+        self.assertEqual(self.blossom, resp.context['item'])
+        self.assertNotEqual(self.bubbles, resp.context['item'])
