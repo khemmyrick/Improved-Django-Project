@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,6 +25,10 @@ SECRET_KEY = '-gs+&x$kl3g_*zop(9hi6p-u5nscicrymm6k%^!zu3(3ii4&iz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+TESTING_MODE = 'test' in sys.argv
+
+DEV_MODE = DEBUG and not TESTING_MODE
 
 ALLOWED_HOSTS = []
 
@@ -111,3 +116,9 @@ STATICFILES_DIRS = (
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK" : lambda x: True
 }
+# KenethLove's setup as recommended by 
+# DEBUG_TOOLBAR_CONFIG = {
+#    'SHOW_TOOLBAR_CALLBACK': lambda x: True
+# }
+
+# DEBUG_TOOLBAR_PATCH_SETTINGS = False

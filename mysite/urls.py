@@ -25,7 +25,7 @@ urlpatterns = [
 
 urlpatterns += staticfiles_urlpatterns()
 
-if settings.DEBUG:
+if settings.DEBUG or settings.TESTING_MODE:
     import debug_toolbar
 
     urlpatterns += [

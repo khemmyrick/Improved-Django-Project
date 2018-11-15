@@ -34,7 +34,6 @@ def item_list(request):
         'name',
         'description',
         'created_date',
-        'standard',
         'id'
     )
     return render(
