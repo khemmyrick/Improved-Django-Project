@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from . import views
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^menu/', include('menu.urls', namespace='menu'))
-]  # Add ^$ view to redirect to 'menu/' uri.
+    url(r'^menu/', include('menu.urls', namespace='menu')),
+    url(r'^$', views.index, name='index')
+]
 
 urlpatterns += staticfiles_urlpatterns()
 

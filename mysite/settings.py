@@ -114,9 +114,9 @@ STATICFILES_DIRS = (
 )
 
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK" : lambda x: True
+    "SHOW_TOOLBAR_CALLBACK": lambda x: True
 }
-# KenethLove's setup as recommended by 
+# KenethLove's setup as recommended by
 # DEBUG_TOOLBAR_CONFIG = {
 #    'SHOW_TOOLBAR_CALLBACK': lambda x: True
 # }

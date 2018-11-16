@@ -17,7 +17,7 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.season
-        
+
     class Meta:
         ordering = ('-expiration_date',)
 

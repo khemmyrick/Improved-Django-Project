@@ -1,11 +1,8 @@
 import unittest
 import datetime
-# import pytz
 
-from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
-from django.db.models import Q
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.template import Context, Template
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -36,14 +33,12 @@ class Pregame(object):
             standard=True
         )
         self.blossom.save()  # Must save instance before adding m2m field.
-        self.blossom.ingredients=(
+        self.blossom.ingredients = (
             self.sugar,
             self.spice,
             self.enice,
             self.chemx
         )
-        # self.blossom.save_m2m()
-        # save_m2m() and save(commit=True) seem to only work for forms?
         self.blossom.save()
 
         self.bubbles = Item(
@@ -53,7 +48,7 @@ class Pregame(object):
             standard=False,
         )
         self.bubbles.save()
-        self.bubbles.ingredients=(
+        self.bubbles.ingredients = (
             self.sugar,
             self.enice,
             self.chemx
@@ -67,7 +62,7 @@ class Pregame(object):
             standard=True
         )
         self.buttercup.save()
-        self.buttercup.ingredients=(
+        self.buttercup.ingredients = (
             self.spice,
             self.enice,
             self.chemx
@@ -80,7 +75,7 @@ class Pregame(object):
             'created_date': self.blossom.created_date,
             'id': self.blossom.id
         }
-        
+
         self.item2 = {
             'name': self.bubbles.name,
             'description': self.bubbles.description,
@@ -90,10 +85,12 @@ class Pregame(object):
 
         self.ppg = Menu(
             season="Powerpuff",
-            expiration_date=datetime.datetime(2050, 1, 1, 1, 1, 1, 1, tzinfo=(pst)),
+            expiration_date=datetime.datetime(
+                2050, 1, 1, 1, 1, 1, 1, tzinfo=(pst)
+            ),
         )
         self.ppg.save()
-        self.ppg.items=(
+        self.ppg.items = (
             self.blossom,
             self.bubbles,
             self.buttercup
@@ -102,10 +99,12 @@ class Pregame(object):
 
         self.leaderless = Menu(
             season="Leaderless PPG",
-            expiration_date=datetime.datetime(2060, 1, 1, 1, 1, 1, 1, tzinfo=(pst))
+            expiration_date=datetime.datetime(
+                2060, 1, 1, 1, 1, 1, 1, tzinfo=(pst)
+            )
         )
         self.leaderless.save()
-        self.leaderless.items=(
+        self.leaderless.items = (
             self.bubbles,
             self.buttercup
         )
@@ -113,10 +112,12 @@ class Pregame(object):
 
         self.lonely = Menu(
             season="Lone PPG",
-            expiration_date=datetime.datetime(1983, 1, 1, 1, 1, 1, 1, tzinfo=(pst))
+            expiration_date=datetime.datetime(
+                1983, 1, 1, 1, 1, 1, 1, tzinfo=(pst)
+            )
         )
         self.lonely.save()
-        self.lonely.items=(
+        self.lonely.items = (
             self.bubbles,
         )
         self.lonely.save()
@@ -177,7 +178,7 @@ class MenuViewTests(Pregame, TestCase):
         self.assertTemplateUsed(resp, 'menu/change_menu.html')
         self.assertEqual(self.ppg, resp.context['menu'])
         self.assertIsInstance(resp.context['form'], MenuForm)
-    
+
     def test_item_edit_view(self):
         resp = self.client.get('/menu/item/1/change/')
         self.assertTemplateUsed(resp, 'menu/item_edit.html')
@@ -201,8 +202,8 @@ class MenuFormTests(Pregame, TestCase):
         }
         mf = MenuForm(data=form_data)
         self.assertTrue(mf.is_valid())
-    
-    def test_menu_form_without_season(self):
+
+    def test_menu_form_invalid_season(self):
         form_data = {
             'season': 'sp',
             'items': [
@@ -214,7 +215,6 @@ class MenuFormTests(Pregame, TestCase):
             'expiration_date': self.ppg.expiration_date
         }
         mf = MenuForm(data=form_data)
-        # mf.is_valid()
         self.assertFalse(mf.is_valid())
 
     def test_item_form(self):
@@ -232,7 +232,20 @@ class MenuFormTests(Pregame, TestCase):
         }
         mf = ItemForm(data=form_data)
         self.assertTrue(mf.is_valid)
-        
+
+    def test_item_form_invalid_name(self):
+        form_data = {
+            'name': 'bub',
+            'description': self.bubbles.description,
+            'chef': self.bubbles.chef,
+            'ingredients': [
+                self.sugar.id,
+                self.enice.id
+            ]
+        }
+        mf = ItemForm(data=form_data)
+        self.assertFalse(mf.is_valid())
+
     def test_v_err_helper(self):
         self.assertRaises(ValidationError, v_err, 'no_season')
         self.assertRaises(ValidationError, v_err, 'no_items')

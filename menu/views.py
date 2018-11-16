@@ -1,12 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.core.urlresolvers import reverse
-from django.db.models import Q, Count
-from django.http import Http404, HttpResponseRedirect
 from django.utils import timezone
-from operator import attrgetter
-from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
-from .models import Item, Menu, Ingredient
+from .models import Item, Menu
 from .forms import MenuForm, ItemForm
 
 
@@ -67,7 +61,7 @@ def create_new_menu(request):
     return render(request, 'menu/add_menu.html', {'form': form})
 
 
-def edit_menu(request, pk):
+def edit_menu(request, pk=None):
     """Edit a menu."""
     menu = get_object_or_404(Menu, pk=pk)
     form = MenuForm(instance=menu)

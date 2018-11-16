@@ -14,9 +14,11 @@ We spent a weekend doing a hackathon a year or so ago and someone built this pro
 4. Check that models are using appropriate fields for the type of data they store. If not, correct them and create migrations to handle the data. [X]
 5. Check that forms are using the correct fields and validation. If not, fix. [X]
 6. Use coverage.py to check the code coverage amount. Write tests to increase test coverage to at least 75%. [X]
+7. Check for PEP8 compliance. [X]
 
 ## Extra Steps
 - Increase test coverage to 90% or above. [X]
+	- Coverage is at 92%.
 - Decrease combined query time on all views to 60ms or less. [X]
 - Add migrations to correct existing data when data types change. [X]
 - Add custom form validators. [X]
