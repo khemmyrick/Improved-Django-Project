@@ -3,13 +3,15 @@ import datetime
 # import pytz
 
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.template import Context, Template
 from django.contrib.auth.models import User
 from django.utils import timezone
 from . import views
 from .models import Menu, Item, Ingredient
+from .forms import MenuForm, ItemForm, v_err
 
 
 class Pregame(object):
@@ -120,16 +122,19 @@ class Pregame(object):
         self.lonely.save()
 
 
-class ModelTests(Pregame, TestCase):
+class MenuModelTests(Pregame, TestCase):
 
     def test_menu_creation(self):
         self.assertEqual(self.ppg.season, 'Powerpuff')
         self.assertLessEqual(self.lonely.expiration_date, timezone.now())
-        # self.assertIn(self.buttercup, self.leaderless.items.queryset)
-        
+
+    def test_item_creation(self):
+        self.assertEqual(self.blossom.name, 'Blossom')
+        self.assertEqual(self.buttercup.description, 'tough fights element')
+        self.assertLessEqual(self.bubbles.created_date, timezone.now())
 
 
-class ViewTests(Pregame, TestCase):
+class MenuViewTests(Pregame, TestCase):
 
     def test_menu_list_view(self):
         resp = self.client.get('/menu/')
@@ -159,3 +164,80 @@ class ViewTests(Pregame, TestCase):
         self.assertTemplateUsed(resp, 'menu/detail_item.html')
         self.assertEqual(self.blossom, resp.context['item'])
         self.assertNotEqual(self.bubbles, resp.context['item'])
+
+    def test_create_new_menu_view(self):
+        resp = self.client.get('/menu/new/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'menu/add_menu.html')
+        self.assertIsInstance(resp.context['form'], MenuForm)
+
+    def test_edit_menu_view(self):
+        resp = self.client.get('/menu/1/edit/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'menu/change_menu.html')
+        self.assertEqual(self.ppg, resp.context['menu'])
+        self.assertIsInstance(resp.context['form'], MenuForm)
+    
+    def test_item_edit_view(self):
+        resp = self.client.get('/menu/item/1/change/')
+        self.assertTemplateUsed(resp, 'menu/item_edit.html')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(self.blossom, resp.context['item'])
+        self.assertIsInstance(resp.context['form'], ItemForm)
+
+
+class MenuFormTests(Pregame, TestCase):
+
+    def test_menu_form(self):
+        form_data = {
+            'season': self.ppg.season,
+            'items': [
+                self.blossom.id,
+                self.buttercup.id,
+                self.bubbles.id
+            ],
+            'created_date': self.ppg.created_date,
+            'expiration_date': self.ppg.expiration_date
+        }
+        mf = MenuForm(data=form_data)
+        self.assertTrue(mf.is_valid())
+    
+    def test_menu_form_without_season(self):
+        form_data = {
+            'season': 'sp',
+            'items': [
+                self.blossom.id,
+                self.buttercup.id,
+                self.bubbles.id
+            ],
+            'created_date': self.ppg.created_date,
+            'expiration_date': self.ppg.expiration_date
+        }
+        mf = MenuForm(data=form_data)
+        # mf.is_valid()
+        self.assertFalse(mf.is_valid())
+
+    def test_item_form(self):
+        form_data = {
+            'name': self.blossom.name,
+            'description': self.blossom.description,
+            'chef': self.blossom.chef,
+            'standard': self.blossom.standard,
+            'ingredients': [
+                self.sugar.id,
+                self.spice.id,
+                self.enice.id,
+                self.chemx.id
+            ]
+        }
+        mf = ItemForm(data=form_data)
+        self.assertTrue(mf.is_valid)
+        
+    def test_v_err_helper(self):
+        self.assertRaises(ValidationError, v_err, 'no_season')
+        self.assertRaises(ValidationError, v_err, 'no_items')
+        self.assertRaises(ValidationError, v_err, 'no_name')
+        self.assertRaises(ValidationError, v_err, 'no_desc')
+        self.assertRaises(ValidationError, v_err, 'no_chef')
+        self.assertRaises(ValidationError, v_err, 'no_ing')
+        self.assertRaises(ValidationError, v_err, 'elapsed')

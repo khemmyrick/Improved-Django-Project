@@ -37,10 +37,8 @@ class MenuForm(forms.ModelForm):
 
     def clean_season(self):
         season = self.cleaned_data['season']
-        print('Validating season prompt.')
         if not re.match(r'[\w{4}\s*]+', season) or len(season) < 4:
             v_err('no_season')
-            print('Season entry invalid.  Should be rejected.')
         return season
 
     def clean_items(self):

@@ -104,8 +104,9 @@ def item_edit(request, pk):
             item.save()
             return redirect('menu:item_detail', pk=item.pk)
 
-    return render(request, 'menu/item_edit.html', {
-        'item': item,
-        'form': form
+    return render(
+        request, 'menu/item_edit.html', {
+            'item': item,
+            'form': form
         }
     )
