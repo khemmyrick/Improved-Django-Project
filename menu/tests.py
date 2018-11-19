@@ -316,11 +316,9 @@ class MenuFormTests(Pregame, TestCase):
 
     def test_item_form_invalid_name(self):
         """
-        Tests invalid item form.
-        
         Creates a form with sample form data.
         Name string has fewer than 4 characters; should produce an error.
-        Checks that form is not valid.
+        Form is not valid.
         """
         form_data = {
             'name': 'bub',
@@ -332,7 +330,12 @@ class MenuFormTests(Pregame, TestCase):
             ]
         }
         mf = ItemForm(data=form_data)
-        self.assertFalse(mf.is_valid())
+        # self.assertFalse(mf.is_valid())
+        self.assertRaisesMessage(
+            ValidationError,
+            "Name field must contain at least 4 alphanumeric characters.",
+            mf.is_valid
+        )
 
     def test_v_err_helper(self):
         '''

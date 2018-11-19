@@ -10,6 +10,7 @@ from . import models  # Menu, Item, Ingredient, model methods etc
 
 def v_err(flaw):
     """Raise various validation errors."""
+    print('v_err running after item and form cleaning methods.')
     error_messages = {
         'no_season': _(
             "Season must contain at least 4 alphanumeric characters."
@@ -59,6 +60,7 @@ class MenuForm(forms.ModelForm):
         """
         season = self.cleaned_data['season']
         if not re.match(r'[\w{4}\s*]+', season) or len(season) < 4:
+            print('MENU SEASON VALIDATION ERROR SHOULD BE RUNNING.  NO FAILURE.')
             v_err('no_season')
         return season
 
@@ -118,6 +120,7 @@ class ItemForm(forms.ModelForm):
         """
         name = self.cleaned_data['name']
         if not re.match(r'[\w{4}\s*]+', name) or len(name) < 4:
+            print('ITEM NAME VALIDATION ERROR SHOULD BE RUNNING.  NO FAILURE.')
             v_err('no_name')
         return name
 
@@ -128,6 +131,7 @@ class ItemForm(forms.ModelForm):
         """
         description = self.cleaned_data['description']
         if len(description) < 10:
+
             v_err('no_desc')
         return description
 
