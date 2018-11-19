@@ -53,18 +53,27 @@ class MenuForm(forms.ModelForm):
         ]
 
     def clean_season(self):
+        """
+        Validate menu object's season field has
+        at least 4 alphanumeric characters.
+        """
         season = self.cleaned_data['season']
         if not re.match(r'[\w{4}\s*]+', season) or len(season) < 4:
             v_err('no_season')
         return season
 
     def clean_items(self):
+        """Validate item object's items' field contains at least 1 item."""
         items = self.cleaned_data['items']
         if len(items) < 1:
             v_err('no_items')
         return items
 
     def clean_expiration_date(self):
+        """
+        Validate item object's expiration date field
+        is after the current date.
+        """
         expiration_date = self.cleaned_data['expiration_date']
         if expiration_date.date() <= datetime.date.today():
             v_err('elapsed')
@@ -103,24 +112,36 @@ class ItemForm(forms.ModelForm):
         self.fields["ingredients"].queryset = models.Ingredient.objects.all()
 
     def clean_name(self):
+        """
+        Validate item object's name contains 
+        at least 4 alphanumeric characters.
+        """
         name = self.cleaned_data['name']
         if not re.match(r'[\w{4}\s*]+', name) or len(name) < 4:
             v_err('no_name')
         return name
 
     def clean_description(self):
+        """
+        Validate item object's description field contains
+        at least 10 characters.
+        """
         description = self.cleaned_data['description']
         if len(description) < 10:
             v_err('no_desc')
         return description
 
     def clean_ingredients(self):
+        """
+        Validate item object's ingredient field has at least 1 ingredient.
+        """
         ingredients = self.cleaned_data['ingredients']
         if len(ingredients) < 1:
             v_err('no_ing')
         return ingredients
 
     def clean_chef(self):
+        """Validate item object's chef field has at least 1 chef."""
         chef = self.cleaned_data['chef']
         if len(chef) < 1:
             v_err('no_chef')

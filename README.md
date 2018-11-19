@@ -15,6 +15,10 @@ We spent a weekend doing a hackathon a year or so ago and someone built this pro
 5. Check that forms are using the correct fields and validation. If not, fix. [X]
 6. Use coverage.py to check the code coverage amount. Write tests to increase test coverage to at least 75%. [X]
 7. Check for PEP8 compliance. [X]
+8. Add docstrings for everything.
+	- Get clarification on Slack regarding how much documentation is useful, and what is or isn't over-explaining.
+		- Should the docstring for a test_item_detail_view function begin with.. '''Tests item detail view'''? etc.
+		- Does DRY coding apply to docstrings? []
 
 ## Extra Steps
 - Increase test coverage to 90% or above. [X]

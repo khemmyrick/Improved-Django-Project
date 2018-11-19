@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 class Menu(models.Model):
+    '''The Menu model.'''
     season = models.CharField(max_length=20)
     items = models.ManyToManyField(
         'Item',
@@ -23,6 +24,7 @@ class Menu(models.Model):
 
 
 class Item(models.Model):
+    '''The Item model.'''
     name = models.CharField(max_length=200)
     description = models.TextField()
     chef = models.ForeignKey('auth.User')
@@ -43,6 +45,7 @@ class Item(models.Model):
 
 
 class Ingredient(models.Model):
+    '''The Ingredient model.'''
     name = models.CharField(max_length=200)
 
     def __str__(self):
