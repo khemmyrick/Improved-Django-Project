@@ -341,6 +341,7 @@ class MenuFormTests(Pregame, TestCase):
         '''
         Checks that all keys in error_messages dict raise ValidationErrors.
         '''
+        print('These are the direct v_err tests.')
         self.assertRaises(ValidationError, v_err, 'no_season')
         self.assertRaises(ValidationError, v_err, 'no_items')
         self.assertRaises(ValidationError, v_err, 'no_name')

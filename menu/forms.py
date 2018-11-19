@@ -10,7 +10,7 @@ from . import models  # Menu, Item, Ingredient, model methods etc
 
 def v_err(flaw):
     """Raise various validation errors."""
-    print('v_err running after item and form cleaning methods.')
+    print('v_err... *SHOULD* be running after item and form cleaning methods.')
     error_messages = {
         'no_season': _(
             "Season must contain at least 4 alphanumeric characters."
