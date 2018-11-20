@@ -74,7 +74,13 @@ def item_detail(request, pk):
 
 
 def create_new_menu(request):
-    """Create a new row in the Menu model."""
+    """Add a new menu to the database.
+    
+    Args:
+        request: an HttpRequest object.
+        
+    Returns: 
+    """
     form = MenuForm()
     if request.method == "POST":
         form = MenuForm(data=request.POST)
