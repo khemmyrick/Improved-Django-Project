@@ -5,7 +5,12 @@ from .forms import MenuForm, ItemForm
 
 
 def menu_list(request):
-    """Display a list of all non-expired menus."""
+    """Display a list of all non-expired menu objects.
+    
+    Filters menus where expiration dates are greater than timezone.now().
+    Prefetches related items.
+    Sends menus and their related items to the template.
+    """
     menus = Menu.objects.filter(
         expiration_date__gte=timezone.now()
     ).prefetch_related(
@@ -21,7 +26,12 @@ def menu_list(request):
 
 
 def item_list(request):
-    """Display a list of the items."""
+    """Display a list of the items.
+    
+    Filters items which aren't available year-round.
+    Creates a dictionary of desired fields for items.
+    Sends dict context to the template.
+    """
     items = Item.objects.filter(
         standard=False
     ).values(
@@ -38,13 +48,27 @@ def item_list(request):
 
 
 def menu_detail(request, pk):
-    """Display a given menu in more detail."""
+    """Display the menu assigned to the id of <pk> in more detail.
+    
+    Args:
+        request: an HttpRequest object.
+        pk (int): The primary key of the desired menu object.
+        
+    Returns: A template populated with menu context data.
+    """
     menu = get_object_or_404(Menu, pk=pk)
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
 
 def item_detail(request, pk):
-    """Display a given item in greater detail."""
+    """Display the item assigned to the id of <pk> in more detail.
+    
+    Args:
+        request: an HttpRequest object.
+        pk (int): The primary key of the desired item object.
+        
+    Returns: A template populated with item context data.
+    """
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'menu/detail_item.html', {'item': item})
 

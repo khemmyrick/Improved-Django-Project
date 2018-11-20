@@ -330,6 +330,7 @@ class MenuFormTests(Pregame, TestCase):
             ]
         }
         mf = ItemForm(data=form_data)
+        mf.is_valid()
         # self.assertFalse(mf.is_valid())
         self.assertRaisesMessage(
             ValidationError,
