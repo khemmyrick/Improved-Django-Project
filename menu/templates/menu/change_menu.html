@@ -3,8 +3,8 @@
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
-                    <h1>Change Menu Options</h1>																											{% comment %}<!-- future implementation combining edit/add new menu templates -->{% if menu.pk %}{% else %}{% endif %}{% endcomment %}
-					<form method="POST" action="{% url 'menu:edit_menu' pk=menu.pk %}" enctype="multipart/form-data" class="menu-form">
+                    <h1>{{ heading }}</h1>
+					<form method="POST" enctype="multipart/form-data" class="menu-form"><!-- action="{% comment %}{% url 'menu:edit_menu' pk=menu.pk %}{% endcomment %}"  -->
 						{% csrf_token %}
 						{{ form.as_p }}
                         <button type="submit" class="save btn btn-default">Save</button>

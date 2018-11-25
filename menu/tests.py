@@ -205,37 +205,28 @@ class MenuViewTests(Pregame, TestCase):
         self.assertEqual(self.blossom, resp.context['item'])
         self.assertNotEqual(self.bubbles, resp.context['item'])
 
-    def test_create_new_menu_view(self):
+    def test_add_edit_menu_view(self):
         '''
-        Tests create menu view.
+        Tests add/edit menu view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that the template is sent a MenuForm instance.
+        Both responses get a 200 status code.
+        Both responses use correct template.
+        MenuForm instance and heading text are in context.
         '''
-        resp = self.client.get('/menu/new/')
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'menu/add_menu.html')
-        self.assertIsInstance(resp.context['form'], MenuForm)
-
-    def test_edit_menu_view(self):
-        '''
-        Tests item detail view.
-        
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that the expected sample menu is the context.
-        Checks that the template is sent a MenuForm instance.
-        '''
-        resp = self.client.get('/menu/1/edit/')
+        resp = self.client.get('/menu/edit/1/')
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'menu/change_menu.html')
-        self.assertEqual(self.ppg, resp.context['menu'])
+        self.assertEqual('Edit Menu', resp.context['heading'])
+        self.assertIsInstance(resp.context['form'], MenuForm)
+        resp = self.client.get('/menu/edit/new/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'menu/change_menu.html')
+        self.assertEqual('New Menu', resp.context['heading'])
         self.assertIsInstance(resp.context['form'], MenuForm)
 
     def test_item_edit_view(self):
         '''
-        Tests item detail view.
+        Tests item edit view.
         
         Checks that the response gets a 200 status code.
         Checks that the correct template is used.
@@ -294,6 +285,7 @@ class MenuFormTests(Pregame, TestCase):
 
     def test_item_form(self):
         """
+        Call is_valid on 
         Tests valid item form.
         
         Creates a form with sample form data.
@@ -311,15 +303,11 @@ class MenuFormTests(Pregame, TestCase):
                 self.chemx.id
             ]
         }
-        mf = ItemForm(data=form_data)
-        self.assertTrue(mf.is_valid)
+        item_form = ItemForm(data=form_data)
+        self.assertTrue(item_form.is_valid)
 
     def test_item_form_invalid_name(self):
-        """
-        Creates a form with sample form data.
-        Name string has fewer than 4 characters; should produce an error.
-        Form is not valid.
-        """
+        """Call is_valid on an ItemForm with a short name str."""
         form_data = {
             'name': 'bub',
             'description': self.bubbles.description,
@@ -329,20 +317,14 @@ class MenuFormTests(Pregame, TestCase):
                 self.enice.id
             ]
         }
-        mf = ItemForm(data=form_data)
-        mf.is_valid()
-        # self.assertFalse(mf.is_valid())
-        self.assertRaisesMessage(
-            ValidationError,
-            "Name field must contain at least 4 alphanumeric characters.",
-            mf.is_valid
-        )
+        item_form = ItemForm(data=form_data)
+        item_form.is_valid()
+        self.assertFalse(item_form.is_valid())
 
     def test_v_err_helper(self):
         '''
         Checks that all keys in error_messages dict raise ValidationErrors.
         '''
-        print('These are the direct v_err tests.')
         self.assertRaises(ValidationError, v_err, 'no_season')
         self.assertRaises(ValidationError, v_err, 'no_items')
         self.assertRaises(ValidationError, v_err, 'no_name')

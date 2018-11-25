@@ -6,10 +6,12 @@ from .forms import MenuForm, ItemForm
 
 def menu_list(request):
     """Display a list of all non-expired menu objects.
-    
+
+    Args:
+        request: an HttpRequest object.
     Filters menus where expiration dates are greater than timezone.now().
-    Prefetches related items.
-    Sends menus and their related items to the template.
+    Prefetches related items to include in menus context.
+    Returns: A template with context data for all relevant menus.
     """
     menus = Menu.objects.filter(
         expiration_date__gte=timezone.now()
@@ -26,11 +28,11 @@ def menu_list(request):
 
 
 def item_list(request):
-    """Display a list of the items.
-    
-    Filters items which aren't available year-round.
-    Creates a dictionary of desired fields for items.
-    Sends dict context to the template.
+    """Display a list of the items which aren't available year-round.
+
+    Args: request
+    Filters field values for items which aren't available year-round.
+    Returns: A template with context data for all relevant items.
     """
     items = Item.objects.filter(
         standard=False
@@ -53,7 +55,6 @@ def menu_detail(request, pk):
     Args:
         request: an HttpRequest object.
         pk (int): The primary key of the desired menu object.
-        
     Returns: A template populated with menu context data.
     """
     menu = get_object_or_404(Menu, pk=pk)
@@ -66,35 +67,31 @@ def item_detail(request, pk):
     Args:
         request: an HttpRequest object.
         pk (int): The primary key of the desired item object.
-        
     Returns: A template populated with item context data.
     """
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'menu/detail_item.html', {'item': item})
 
 
-def create_new_menu(request):
-    """Add a new menu to the database.
-    
+def add_edit_menu(request, pk=None):
+    """Create a new menu or edit an existing menu.
+
     Args:
         request: an HttpRequest object.
-        
-    Returns: 
+    Keyword arg:
+        pk (int): The primary key of the desired menu object.
+    Returns: A template populated with form context data
+        and one of two possible heading strings.
+        After form data is entered and submitted,
+        returns redirect to desired menu_detail view.
     """
-    form = MenuForm()
-    if request.method == "POST":
-        form = MenuForm(data=request.POST)
-        if form.is_valid():
-            menu = form.save()
-            return redirect('menu:menu_detail', pk=menu.pk)
+    if pk:
+        menu = get_object_or_404(Menu, pk=pk)
+        heading = 'Edit Menu'
+    else:
+        menu = None
+        heading = 'New Menu'
 
-    return render(request, 'menu/add_menu.html', {'form': form})
-
-
-def edit_menu(request, pk=None):
-    """Edit a menu."""
-    menu = get_object_or_404(Menu, pk=pk)
-    form = MenuForm(instance=menu)
     if request.method == "POST":
         form = MenuForm(
             request.POST,
@@ -102,19 +99,31 @@ def edit_menu(request, pk=None):
         )
         if form.is_valid():
             menu = form.save(commit=False)
+            menu.save()
             form.save_m2m()
             menu.save()
             return redirect('menu:menu_detail', pk=menu.pk)
 
+    else:
+        form = MenuForm(instance=menu)
     return render(request, 'menu/change_menu.html', {
-        'menu': menu,
-        'form': form
+        'form': form,
+        'heading': heading
         }
     )
 
 
 def item_edit(request, pk):
-    """Edit an item."""
+    """Edit an item.
+
+    Args:
+        request: an HttpRequest object.
+        pk (int): The primary key of the desired item object.
+    Returns: A template populated with item context data
+        and a form prefilled with desired item fields.
+        After form data is edited and resubmitted,
+        returns redirect to item_detail view.
+    """
     item = get_object_or_404(Item, pk=pk)
     form = ItemForm(instance=item)
     if request.method == "POST":

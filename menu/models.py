@@ -3,7 +3,14 @@ from django.utils import timezone
 
 
 class Menu(models.Model):
-    '''The Menu model.'''
+    '''The Menu model.
+    
+    Fields:
+        season: str of more than 4 but less than 21 characters.
+        items: an m2m field of Item objects.
+        created_date: timezone.now called when menu is created.
+        expiration_date: a DateTimeField for when the menu expires.
+    '''
     season = models.CharField(max_length=20)
     items = models.ManyToManyField(
         'Item',
@@ -24,7 +31,16 @@ class Menu(models.Model):
 
 
 class Item(models.Model):
-    '''The Item model.'''
+    '''The Item model.
+    
+    Fields:
+        name: CharField of more than 4 characters but less than 201.
+        description: TextField to describe the item.
+        chef: a ForeignKey field linking to the creator of the item.
+        created_date: a timezone.now call for when the item is created.
+        standard: a boolean marked True if an item is available year-round.
+        ingredients: an m2m field of Ingredient objects.
+    '''
     name = models.CharField(max_length=200)
     description = models.TextField()
     chef = models.ForeignKey('auth.User')
@@ -45,7 +61,11 @@ class Item(models.Model):
 
 
 class Ingredient(models.Model):
-    '''The Ingredient model.'''
+    '''The Ingredient model.
+    
+    Fields:
+        name: a CharField of less than 200 characters.
+    '''
     name = models.CharField(max_length=200)
 
     def __str__(self):
