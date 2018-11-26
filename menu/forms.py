@@ -72,7 +72,7 @@ class MenuForm(forms.ModelForm):
         ]
 
     def clean_season(self):
-        """Season field needs at least 4 alphanumeric characters.
+        """Season str needs at least 4 consecutive alphanumeric characters.
         
         Else: raise ValidationError.
         """
@@ -123,7 +123,7 @@ class ItemForm(forms.ModelForm):
         ]
 
     def clean_name(self):
-        """Name field is a str of at least 4 alphanumeric characters.
+        """Name str needs at least 4 consecutive alphanumeric characters.
         
         Else: raise ValidationError.
         """
