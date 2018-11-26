@@ -5,12 +5,16 @@
                 <div class="col-md-8">
                     <div class="post">
                         {% for menu in menus %}
-                            <h1 class="btn-link">
-                                {% if user.is_authenticated %}
-                                    <a class="btn btn-default" href="{% url 'menu:edit_menu' pk=menu.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                                {% endif %}
-                                <a href="{% url 'menu:menu_detail' pk=menu.id %}">{{ menu.season }}</a>
-                            </h1>
+						  <div class="row">
+							<div class="col-sm-4" style="background-color:lavender; border-bottom: 3px solid #acd0cf;">
+								<h1 class="btn-link">
+									{% if user.is_authenticated %}
+										<a class="btn btn-default" href="{% url 'menu:edit_menu' pk=menu.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+									{% endif %}
+									<br><a href="{% url 'menu:menu_detail' pk=menu.id %}">{{ menu.season }}</a>
+								</h1>
+							</div>
+							<div class="col-sm-8" style="background-color:lavenderblush; border-bottom: 5px solid #acd0cf;">
 								<ol>
 								{% for item in menu.items.all %}
 									<li><a href="{% url 'menu:item_detail' pk=item.id %}">{{ item.name }}</a>.</li>
@@ -22,7 +26,9 @@
 									Expires on: {{ menu.expiration_date }}
 								</div>
 							{% endif %}
-							<hr>
+							</div>
+						  </div>
+						
                         {% endfor %}
                     </div>
                 </div>
