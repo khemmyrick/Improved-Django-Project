@@ -13,8 +13,7 @@ from .forms import MenuForm, ItemForm, v_err
 
 class Pregame(object):
     def setUp(self):
-        """
-        Setup function that can be repeated for all test cases.
+        """Setup function that can be repeated for all test cases.
         
         Creates sample Menu, Item, Ingredient and User objects.
         Creates sample context dictionaries for certain Menu and Item objects.
@@ -37,7 +36,7 @@ class Pregame(object):
             chef=User.objects.get(username='ProUtonium'),
             standard=True
         )
-        self.blossom.save()  # Must save instance before adding m2m field.
+        self.blossom.save()
         self.blossom.ingredients = (
             self.sugar,
             self.spice,
@@ -131,12 +130,12 @@ class Pregame(object):
 class MenuModelTests(Pregame, TestCase):
     """Menu app model tests."""
     def test_menu_creation(self):
-        '''Tests that a sample menu object is created successfully.'''
+        '''A sample menu object is created successfully.'''
         self.assertEqual(self.ppg.season, 'Powerpuff')
         self.assertLessEqual(self.lonely.expiration_date, timezone.now())
 
     def test_item_creation(self):
-        '''Tests that a sample item object is created successfully.'''
+        '''A sample item object is created successfully.'''
         self.assertEqual(self.blossom.name, 'Blossom')
         self.assertEqual(self.buttercup.description, 'tough fights element')
         self.assertLessEqual(self.bubbles.created_date, timezone.now())
@@ -145,13 +144,12 @@ class MenuModelTests(Pregame, TestCase):
 class MenuViewTests(Pregame, TestCase):
     """Menu app view tests."""
     def test_menu_list_view(self):
-        '''
-        Tests menu list view.
+        '''Tests menu list view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that expected sample menus are found in the context.
-        Checks that an unexpected sample menu is not found in the context.
+        The response gets a 200 status code.
+        The correct template is used.
+        Expected sample menus are found in the context.
+        An unexpected sample menu is not found in the context.
         '''
         resp = self.client.get('/menu/')
         self.assertEqual(resp.status_code, 200)
@@ -161,13 +159,12 @@ class MenuViewTests(Pregame, TestCase):
         self.assertNotIn(self.lonely, resp.context['menus'])
 
     def test_item_list_view(self):
-        '''
-        Tests item list view.
+        '''Tests item list view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that an expected sample item is found in the context.
-        Checks that an unexpected sample item is not found in the context.
+        The response gets a 200 status code.
+        The correct template is used.
+        An expected sample item is found in the context.
+        An unexpected sample item is not found in the context.
         '''
         resp = self.client.get('/menu/item/list/')
         self.assertEqual(resp.status_code, 200)
@@ -176,13 +173,12 @@ class MenuViewTests(Pregame, TestCase):
         self.assertIn(self.item2, resp.context['items'])
 
     def test_menu_detail_view(self):
-        '''
-        Tests menu detail view.
+        '''Tests menu detail view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that the expected sample menu is found in the context.
-        Checks that an unexpected sample menu is not found in the context.
+        The response gets a 200 status code.
+        The correct template is used.
+        The expected sample menu is found in the context.
+        An unexpected sample menu is not found in the context.
         '''
         resp = self.client.get('/menu/1/detail/')
         self.assertEqual(resp.status_code, 200)
@@ -191,13 +187,12 @@ class MenuViewTests(Pregame, TestCase):
         self.assertNotEqual(self.lonely, resp.context['menu'])
 
     def test_item_detail_view(self):
-        '''
-        Tests item detail view.
+        '''Tests item detail view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that the expected sample item is found in the context.
-        Checks that an unexpected sample item is not found in the context.
+        The response gets a 200 status code.
+        The correct template is used.
+        The expected sample item is found in the context.
+        An unexpected sample item is not found in the context.
         '''
         resp = self.client.get('/menu/item/1/')
         self.assertEqual(resp.status_code, 200)
@@ -206,8 +201,7 @@ class MenuViewTests(Pregame, TestCase):
         self.assertNotEqual(self.bubbles, resp.context['item'])
 
     def test_add_edit_menu_view(self):
-        '''
-        Tests add/edit menu view.
+        '''Tests add/edit menu view.
         
         Both responses get a 200 status code.
         Both responses use correct template.
@@ -225,13 +219,12 @@ class MenuViewTests(Pregame, TestCase):
         self.assertIsInstance(resp.context['form'], MenuForm)
 
     def test_item_edit_view(self):
-        '''
-        Tests item edit view.
+        '''Tests item edit view.
         
-        Checks that the response gets a 200 status code.
-        Checks that the correct template is used.
-        Checks that the expected sample item is the context.
-        Checks that the template is sent an ItemForm instance.
+        The response gets a 200 status code.
+        The correct template is used.
+        The expected sample item is the context.
+        The template is sent an ItemForm instance.
         '''
         resp = self.client.get('/menu/item/1/change/')
         self.assertTemplateUsed(resp, 'menu/item_edit.html')
@@ -243,8 +236,7 @@ class MenuViewTests(Pregame, TestCase):
 class MenuFormTests(Pregame, TestCase):
     """Menu app form tests."""
     def test_menu_form(self):
-        """
-        Tests valid menu form.
+        """Tests valid menu form.
         
         Creates a form with sample form data.
         Checks that form is valid.
@@ -263,12 +255,10 @@ class MenuFormTests(Pregame, TestCase):
         self.assertTrue(mf.is_valid())
 
     def test_menu_form_invalid_season(self):
-        """
-        Tests invalid menu form.
+        """Tests invalid menu form.
         
         Creates a form with sample form data.
-        Season string has fewer than 4 characters; should produce an error.
-        Checks that form is not valid.
+        Season string has fewer than 4 characters; is not valid.
         """
         form_data = {
             'season': 'sp',
@@ -284,12 +274,10 @@ class MenuFormTests(Pregame, TestCase):
         self.assertFalse(mf.is_valid())
 
     def test_item_form(self):
-        """
-        Call is_valid on 
-        Tests valid item form.
+        """Tests valid item form.
         
         Creates a form with sample form data.
-        Checks that form is valid.
+        Form is valid.
         """
         form_data = {
             'name': self.blossom.name,
@@ -322,9 +310,7 @@ class MenuFormTests(Pregame, TestCase):
         self.assertFalse(item_form.is_valid())
 
     def test_v_err_helper(self):
-        '''
-        Checks that all keys in error_messages dict raise ValidationErrors.
-        '''
+        '''All keys in error_messages dict raise ValidationErrors.'''
         self.assertRaises(ValidationError, v_err, 'no_season')
         self.assertRaises(ValidationError, v_err, 'no_items')
         self.assertRaises(ValidationError, v_err, 'no_name')
